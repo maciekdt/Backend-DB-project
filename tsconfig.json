@@ -1,16 +1,22 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
+    //"baseUrl": ".",
     "module": "commonjs",
-    "rootDir": "./src",
+    //"rootDir": ".",
     "moduleResolution": "node",
     "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,           
     "strict": true,
-    "skipLibCheck": true
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "target": "es5",
+    "lib": ["es6"],
+    "types": ["reflect-metadata", "mocha"],
+    "emitDecoratorMetadata": true
   },
   "exclude":[
-    "./node_modules"
+    "./node_modules",
+    "src/testin/test"
   ]
 }
