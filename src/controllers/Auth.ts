@@ -15,6 +15,6 @@ export class AuthController implements IAuthController {
 
   public async getHash(pass: string): Promise<boolean> {
     let token = await this.cryp.generateTokenForUser("ABC")
-    return this.cryp.verifyTokenForUser("ABC", token)
+    return await this.cryp.verifyTokenForUser("ABC", token)
   }
 }

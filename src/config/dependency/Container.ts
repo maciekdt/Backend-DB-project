@@ -9,6 +9,6 @@ import { IKeyProvider, KeyProvider } from "../../utils/auth/KeyProvider"
 const appContainer = new Container()
 appContainer.bind<ICrypTool>(TYPES.CrypTool).to(CrypTool)
 appContainer.bind<IAuthController>(TYPES.Auth).to(AuthController)
-appContainer.bind<IKeyProvider>(TYPES.Auth).to(KeyProvider)
+appContainer.bind<IKeyProvider>(TYPES.KeyProvider).to(KeyProvider)
 
 export { appContainer }
