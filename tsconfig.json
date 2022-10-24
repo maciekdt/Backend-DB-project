@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
-    //"baseUrl": ".",
     "module": "commonjs",
-    //"rootDir": ".",
     "moduleResolution": "node",
     "outDir": "./dist",
     "esModuleInterop": true,
@@ -13,7 +11,8 @@
     "target": "es5",
     "lib": ["es6"],
     "types": ["reflect-metadata", "mocha"],
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "sourceMap": true
   },
   "exclude":[
     "./node_modules",

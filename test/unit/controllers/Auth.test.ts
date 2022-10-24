@@ -1,10 +1,11 @@
 import { expect } from 'chai'
+import { mock, instance, when } from 'ts-mockito'
 import { AuthController} from "../../../src/controllers/Auth"
 import { ICrypTool, CrypTool } from '../../../src/utils/auth/CrypTool'
-import { mock, instance, when } from 'ts-mockito'
 
 
-describe('AuthControler tests', function() {
+
+describe('Tests for AuthController class', function() {
 
     it('checking default options', async function() {
         //arange
