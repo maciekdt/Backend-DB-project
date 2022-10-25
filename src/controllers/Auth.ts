@@ -1,9 +1,20 @@
-import {CrypToolsI} from 'utils/auth/CrypTools'
+import "reflect-metadata"
+import { TYPES } from '../config/dependency/types'
+import { inject, injectable } from 'inversify'
+import {ICrypTool} from '../utils/auth/CrypTool'
 
-interface AuthModelDependencies{
-  authTools: CrypToolsI
+export interface IAuthController {
+  getHash(pass: string): Promise<boolean>
 }
 
-/*let dependecies: AuthModelDependencies = {
-  authauthTools
-}*/
+
+@injectable()
+export class AuthController implements IAuthController {
+
+  constructor(@inject(TYPES.CrypTool) private cryp: ICrypTool){}
+
+  public async getHash(pass: string): Promise<boolean> {
+    let token = await this.cryp.generateTokenForUser("ABC")
+    return await this.cryp.verifyTokenForUser("ABC", token)
+  }
+}
