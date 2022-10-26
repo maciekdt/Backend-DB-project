@@ -1,6 +1,8 @@
-export type User = {
-    login: string,
-    password: string,
-    firstName: string,
-    lastName: string
+export class User{
+    constructor(
+        public login: string,
+        public password: string,
+        public firstName: string,
+        public lastName: string
+    ){}
 }
