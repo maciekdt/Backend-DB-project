@@ -1,25 +1,28 @@
-import { injectable } from "inversify"
+import { inject, injectable } from "inversify"
 import fs from 'fs'
+import { TYPES } from "../../config/dependency/types"
+import { SystemConfigProvider } from "../../config/system/SystemConfigProvider"
 
-export interface IKeyProvider{
+export interface KeyProvider{
     getSecretKey(): Promise<string>
 }
 
 @injectable()
-export class KeyProvider implements IKeyProvider{
+export class KeyFromTextFile implements KeyProvider{
 
-    private static secretKeyCache: string|null = null
-    private keyFilePath = "res/secret/private.key"
+    constructor(@inject(TYPES.SystemConfigProvider) private system: SystemConfigProvider){}
 
-    public async getSecretKey(filePath: string = this.keyFilePath): Promise<string> {
-        if(KeyProvider.secretKeyCache == null){
+    private secretKeyCache: string|null = null
+
+    public async getSecretKey(): Promise<string> {
+        if(this.secretKeyCache == null){
             let secretKey =  await fs
                 .promises
-                .readFile(filePath, "utf8")
-            KeyProvider.secretKeyCache = secretKey
+                .readFile(this.system.getSystemConfig().privateKeyPath, "utf8")
+            this.secretKeyCache = secretKey
             return secretKey
         }
         else
-            return Promise.resolve(KeyProvider.secretKeyCache as unknown as string)
+            return Promise.resolve(this.secretKeyCache as string)
     }
 }

@@ -1,12 +1,13 @@
+import { injectable } from "inversify";
 import { User } from "../models/User";
 
-export interface IUsersRepo{
+export interface UsersRepo{
     getUserByLogin(userLogin: string): Promise<User>
     addUser(newUser: User): Promise<void>
 }
 
-
-export class UsersRepo implements IUsersRepo{
+@injectable()
+export class UsersRepoImplementaion implements UsersRepo{
     getUserByLogin(userLogin: string): Promise<User> {
         throw new Error("Method not implemented.");
     }

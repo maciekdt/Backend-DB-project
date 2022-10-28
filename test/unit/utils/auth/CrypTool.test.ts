@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { instance, mock, when } from 'ts-mockito'
-import { ICrypTool, CrypTool } from '../../../../src/utils/auth/CrypTool'
-import { IKeyProvider, KeyProvider } from '../../../../src/utils/auth/KeyProvider'
+import { CrypTool, CrypToolImplementation  } from '../../../../src/utils/auth/CrypTool'
+import { KeyProvider, KeyFromTextFile } from '../../../../src/utils/auth/KeyProvider'
 
 const validPrivateKey = 
 `-----BEGIN PRIVATE KEY-----
@@ -18,8 +18,8 @@ describe('Tests for CrypTool class', function() {
     it('encodePassword and comparePassword when the same password', async function() {
         //arange
         const pass = "ABCDEF"
-        let mockedKeyProvider:IKeyProvider = mock(KeyProvider)
-        const sut: ICrypTool = new CrypTool(instance(mockedKeyProvider))
+        let mockedKeyProvider:KeyProvider = mock(KeyFromTextFile)
+        const sut: CrypTool = new CrypToolImplementation (instance(mockedKeyProvider))
         
         //act
         let encodedPass = await sut.encodePassword(pass)
@@ -35,8 +35,8 @@ describe('Tests for CrypTool class', function() {
         const pass = "ABCDEF"
         const otherPass = "FEDCBA"
 
-        let mockedKeyProvider:IKeyProvider = mock(KeyProvider)
-        const sut: ICrypTool = new CrypTool(instance(mockedKeyProvider))
+        let mockedKeyProvider:KeyProvider = mock(KeyFromTextFile)
+        const sut: CrypTool = new CrypToolImplementation (instance(mockedKeyProvider))
         
         //act
         let encodedPass = await sut.encodePassword(pass)
@@ -51,9 +51,9 @@ describe('Tests for CrypTool class', function() {
         //arange
         const userId = "user1"
 
-        let mockedKeyProvider:IKeyProvider = mock(KeyProvider)
+        let mockedKeyProvider:KeyProvider = mock(KeyFromTextFile)
         when(mockedKeyProvider.getSecretKey()).thenReturn(Promise.resolve(validPrivateKey))
-        const sut: ICrypTool = new CrypTool(instance(mockedKeyProvider))
+        const sut: CrypTool = new CrypToolImplementation (instance(mockedKeyProvider))
         
         //act
         let token = await sut.generateTokenForUser(userId)
@@ -69,9 +69,9 @@ describe('Tests for CrypTool class', function() {
         const userId = "user1"
         const otherUserId = "user2"
 
-        let mockedKeyProvider:IKeyProvider = mock(KeyProvider)
+        let mockedKeyProvider:KeyProvider = mock(KeyFromTextFile)
         when(mockedKeyProvider.getSecretKey()).thenReturn(Promise.resolve(validPrivateKey))
-        const sut: ICrypTool = new CrypTool(instance(mockedKeyProvider))
+        const sut: CrypTool = new CrypToolImplementation (instance(mockedKeyProvider))
         
         //act
         let token = await sut.generateTokenForUser(userId)
@@ -87,9 +87,9 @@ describe('Tests for CrypTool class', function() {
         const userId = "user1"
         const token = "ABCDEFG"
 
-        let mockedKeyProvider:IKeyProvider = mock(KeyProvider)
+        let mockedKeyProvider:KeyProvider = mock(KeyFromTextFile)
         when(mockedKeyProvider.getSecretKey()).thenReturn(Promise.resolve(validPrivateKey))
-        const sut: ICrypTool = new CrypTool(instance(mockedKeyProvider))
+        const sut: CrypTool = new CrypToolImplementation (instance(mockedKeyProvider))
         
         //act
         let result = await sut.verifyTokenForUser(userId, token)

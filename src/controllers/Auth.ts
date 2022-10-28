@@ -1,24 +1,24 @@
 import "reflect-metadata"
 import { TYPES } from '../config/dependency/types'
 import { inject, injectable } from 'inversify'
-import {ICrypTool} from '../utils/auth/CrypTool'
+import {CrypTool} from '../utils/auth/CrypTool'
 import { Request, Response } from "express"
 import { ParamsDictionary } from "express-serve-static-core"
 import { ParsedQs } from "qs"
-import { IUsersRepo } from "../repos/UsersRepo"
+import { UsersRepo } from "../repos/UsersRepo"
 
-export interface IAuthController {
+export interface AuthController {
   getHash(pass: string): Promise<boolean>,
   login(req: Request, res: Response): Promise<Response>
 }
 
 
 @injectable()
-export class AuthController implements IAuthController {
+export class AuthControllerImplementation implements AuthController {
 
   constructor(
-    @inject(TYPES.CrypTool) private cryp: ICrypTool,
-    @inject(TYPES.UsersRepo) private usersReop: IUsersRepo
+    @inject(TYPES.CrypTool) private cryp: CrypTool,
+    @inject(TYPES.UsersRepo) private usersReop: UsersRepo
     ){}
 
   public async login(req: Request, res: Response): Promise<Response> {
