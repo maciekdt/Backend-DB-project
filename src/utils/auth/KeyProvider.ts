@@ -1,25 +1,46 @@
-import { injectable } from "inversify"
-import fs from 'fs'
+import { inject, injectable } from "inversify"
+import { TYPES } from "../../config/dependency/types"
+import { SystemConfigProvider } from "../../config/system/SystemConfigProvider"
+import { FileRepo } from "../files/FileRepo"
+import Semaphore from 'semaphore-async-await'
 
-export interface IKeyProvider{
+export interface KeyProvider{
     getSecretKey(): Promise<string>
 }
 
 @injectable()
-export class KeyProvider implements IKeyProvider{
+export class KeyFromTextFile implements KeyProvider{
 
-    private static secretKeyCache: string|null = null
-    private keyFilePath = "res/secret/private.key"
+    constructor(
+        @inject(TYPES.SystemConfigProvider) private system: SystemConfigProvider,
+        @inject(TYPES.FileRepo) private fileRepo: FileRepo
+    ){}
 
-    public async getSecretKey(filePath: string = this.keyFilePath): Promise<string> {
-        if(KeyProvider.secretKeyCache == null){
-            let secretKey =  await fs
-                .promises
-                .readFile(filePath, "utf8")
-            KeyProvider.secretKeyCache = secretKey
-            return secretKey
+    private secretKeyCache: string|null = null
+    private lock = new Semaphore(1)
+
+    public async getSecretKey(): Promise<string>{
+        if(this.secretKeyCache != null)
+            return this.secretKeyCache as string
+        return await this.getKeyfromFile()
+        
+    }
+
+    private async getKeyfromFile(): Promise<string>{
+        await this.lock.wait()
+        if(this.secretKeyCache == null){
+            try {
+                let secretKey =  await this.fileRepo.readFileAsString(
+                    this.system.getSystemConfig().privateKeyPath)
+                this.secretKeyCache = secretKey
+                this.lock.signal()
+                return secretKey
+            }
+            finally { this.lock.signal() }
         }
-        else
-            return Promise.resolve(KeyProvider.secretKeyCache as unknown as string)
+        else{
+            this.lock.signal()
+            return this.secretKeyCache as string
+        }
     }
 }

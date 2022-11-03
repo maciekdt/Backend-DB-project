@@ -2,11 +2,10 @@ import "reflect-metadata";
 import bcrypt from 'bcrypt'
 import { inject, injectable } from 'inversify'
 import jwt from 'jwt-promisify'
-import fs from 'fs'
 import { TYPES } from "../../config/dependency/types";
-import { IKeyProvider } from "./KeyProvider";
+import { KeyProvider } from "./KeyProvider";
 
-export interface ICrypTool{
+export interface CrypTool{
 	generateTokenForUser(userId: string): Promise<string>,
 	verifyTokenForUser(userId: string, token: string): Promise<boolean>,
 	encodePassword(pass: string): Promise<string>,
@@ -18,12 +17,11 @@ interface TokenData{
 }
 
 @injectable()
-export class CrypTool implements ICrypTool{
+export class CrypToolImplementation  implements CrypTool{
 
-	constructor(@inject(TYPES.KeyProvider) private keyProvider: IKeyProvider){}
+	constructor(@inject(TYPES.KeyProvider) private keyProvider: KeyProvider){}
 	
 	private saltRounds = 10
-	private keyFilePath = "res/secret/private.key"
 
 	public async generateTokenForUser(userId: string): Promise<string> {
 		let secret = await this.keyProvider.getSecretKey()
