@@ -19,18 +19,28 @@ export class KeyFromTextFile implements KeyProvider{
     private secretKeyCache: string|null = null
     private lock = new Semaphore(1)
 
-    public async getSecretKey(): Promise<string> {
+    public async getSecretKey(): Promise<string>{
+        if(this.secretKeyCache != null)
+            return this.secretKeyCache as string
+        return await this.getKeyfromFile()
+        
+    }
+
+    private async getKeyfromFile(): Promise<string>{
         await this.lock.wait()
         if(this.secretKeyCache == null){
-            let secretKey =  await this.fileRepo.readFileAsString(
-                this.system.getSystemConfig().privateKeyPath)
-            this.secretKeyCache = secretKey
-            this.lock.signal()
-            return secretKey
+            try {
+                let secretKey =  await this.fileRepo.readFileAsString(
+                    this.system.getSystemConfig().privateKeyPath)
+                this.secretKeyCache = secretKey
+                this.lock.signal()
+                return secretKey
+            }
+            finally { this.lock.signal() }
         }
         else{
             this.lock.signal()
-            return Promise.resolve(this.secretKeyCache as string)
+            return this.secretKeyCache as string
         }
     }
 }

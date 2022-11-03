@@ -25,13 +25,12 @@ export class AuthControllerImplementation implements AuthController {
 
 	public async login(req: Request, res: Response): Promise<void> {
 		throw new Error("Method not implemented.")
-		/*let login = req.header("login") as string
+		let login = req.header("login") as string
 		let password = req.header("password") as string
 
 		if((await this.usersRepo.getUserByLogin(login)).password == password){
 			res.status(56776)
-			res.
-		}*/
+		}
 	}
 
   	public async getHash(pass: string): Promise<boolean> {

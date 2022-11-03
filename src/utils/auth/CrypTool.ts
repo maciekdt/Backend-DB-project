@@ -2,7 +2,6 @@ import "reflect-metadata";
 import bcrypt from 'bcrypt'
 import { inject, injectable } from 'inversify'
 import jwt from 'jwt-promisify'
-import fs from 'fs'
 import { TYPES } from "../../config/dependency/types";
 import { KeyProvider } from "./KeyProvider";
 
