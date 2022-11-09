@@ -1,3 +1,8 @@
 {
-    "privateKeyPath": "res/secret/private.key"
+    "privateKeyPath": "res/secret/private.key",
+    "db": {
+        "pass": "Banan123",
+        "user": "root",
+        "name": "main"
+    }
 }

@@ -8,7 +8,7 @@
     "strict": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
-    "target": "es5",
+    "target": "es2017",
     "lib": ["es6"],
     "types": ["reflect-metadata", "mocha"],
     "emitDecoratorMetadata": true,

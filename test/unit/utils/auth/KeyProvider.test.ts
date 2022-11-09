@@ -62,7 +62,8 @@ describe('Tests for KeyProvider class', function() {
         verify(mockedFileRepo.readFileAsString(keyFilePath)).once()
     })
 
-    it('getSecretKey when fileRepo throws InternalServerError once, then return key on next call',
+
+    it('getSecretKey when fileRepo throws Error once, then return key on next call',
     async function() {
         //arange
         when(mockedSystemConfigProvider.getSystemConfig())

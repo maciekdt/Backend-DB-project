@@ -4,7 +4,9 @@ const TYPES = {
     KeyProvider: Symbol.for("KeyProvider"),
     UsersRepo: Symbol.for("UsersRepo"),
     SystemConfigProvider: Symbol.for("SystemConfigProvider"),
-    FileRepo: Symbol.for("FileRepo")
+    FileRepo: Symbol.for("FileRepo"),
+    DataBaseService: Symbol.for("DataBaseService"),
+    DataBaseBuilder: Symbol.for("DataBaseBuilder")
 }
 
 export { TYPES }
