@@ -19,6 +19,7 @@ export class SystemConfigFromJson implements SystemConfigProvider{
     
     public async init(): Promise<void> {
         this.systemConfig = await this.fileRepo.readFileAsObject<SystemConfig>(this.configFilePath)
+        console.log('Sysytem configuration loaded')
     }
 
     public getSystemConfig(): SystemConfig {

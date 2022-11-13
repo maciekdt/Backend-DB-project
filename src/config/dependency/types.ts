@@ -6,7 +6,8 @@ const TYPES = {
     SystemConfigProvider: Symbol.for("SystemConfigProvider"),
     FileRepo: Symbol.for("FileRepo"),
     DataBaseService: Symbol.for("DataBaseService"),
-    DataBaseBuilder: Symbol.for("DataBaseBuilder")
+    DataBaseBuilder: Symbol.for("DataBaseBuilder"),
+    System: Symbol.for("System")
 }
 
 export { TYPES }

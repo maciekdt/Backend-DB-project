@@ -1,6 +1,5 @@
 import { Container } from "inversify"
 import "reflect-metadata"
-import { TYPES } from "./types"
 import { CrypTool, CrypToolImplementation  } from "../../utils/auth/CrypTool"
 import { AuthController, AuthControllerImplementation } from "../../controllers/Auth"
 import { KeyProvider, KeyFromTextFile } from "../../utils/auth/KeyProvider" 
@@ -9,7 +8,8 @@ import { SystemConfigFromJson, SystemConfigProvider } from "../system/SystemConf
 import { FileRepo, FileRepoFs } from "../../utils/files/FileRepo"
 import { DataBaseService, SequalizeService } from "../../database/DataBaseService"
 import { DataBaseBuilder, SequalizeBuilder } from "../data-base/DataBaseBuilder"
-
+import { System, SystemImpl } from "../system/System"
+import { TYPES } from "./types"
 
 
 const appContainer = new Container()
@@ -18,6 +18,7 @@ appContainer.bind<AuthController>(TYPES.Auth).to(AuthControllerImplementation)
 appContainer.bind<UsersRepo>(TYPES.UsersRepo).to(UsersRepoImplementaion)
 appContainer.bind<FileRepo>(TYPES.FileRepo).to(FileRepoFs)
 appContainer.bind<DataBaseBuilder>(TYPES.DataBaseBuilder).to(SequalizeBuilder)
+appContainer.bind<System>(TYPES.System).to(SystemImpl)
 
 appContainer.bind<DataBaseService>(TYPES.DataBaseService).to(SequalizeService).inSingletonScope()
 appContainer.bind<KeyProvider>(TYPES.KeyProvider).to(KeyFromTextFile).inSingletonScope()

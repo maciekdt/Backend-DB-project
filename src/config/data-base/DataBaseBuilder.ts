@@ -5,6 +5,7 @@ import { User } from "../../models/User";
 import { TYPES } from "../dependency/types";
 
 
+
 export interface DataBaseBuilder {
     build(): Promise<void>
 }

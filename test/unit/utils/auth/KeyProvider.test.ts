@@ -2,7 +2,6 @@ import { expect } from 'chai'
 import { anyString, instance, mock, verify, when } from 'ts-mockito'
 import { SystemConfig } from '../../../../src/config/system/SystemConfig'
 import { SystemConfigFromJson, SystemConfigProvider } from '../../../../src/config/system/SystemConfigProvider'
-import { InternalServerError } from '../../../../src/models/exceptions/Exceptions'
 import { CrypTool, CrypToolImplementation  } from '../../../../src/utils/auth/CrypTool'
 import { KeyProvider, KeyFromTextFile } from '../../../../src/utils/auth/KeyProvider'
 import { FileRepo, FileRepoFs } from '../../../../src/utils/files/FileRepo'
@@ -69,7 +68,7 @@ describe('Tests for KeyProvider class', function() {
         when(mockedSystemConfigProvider.getSystemConfig())
             .thenReturn({ privateKeyPath: keyFilePath } as SystemConfig)
         when(mockedFileRepo.readFileAsString(keyFilePath))
-            .thenThrow(new InternalServerError("Test error"))
+            .thenThrow(new Error("Test error"))
             .thenReturn(Promise.resolve(key))
         const sut = new KeyFromTextFile(
             instance(mockedSystemConfigProvider),

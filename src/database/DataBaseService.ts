@@ -5,9 +5,8 @@ import { SystemConfigProvider } from "../config/system/SystemConfigProvider"
 
 
 export interface DataBaseService{
-    connect(): void
+    connect(): Promise<void>
     getClient(): Sequelize
-    testConnection(): Promise<void>
 }
 
 @injectable()
@@ -18,21 +17,17 @@ export class SequalizeService implements DataBaseService{
 
     private client: Sequelize|null = null
 
-    public connect(): void {
+    public async connect(): Promise<void> {
         let config = this.system.getSystemConfig().db
         this.client = new Sequelize(config.name,  config.user, config.pass, {
             dialect: "mysql",
             host: 'localhost'
         })
+        await (this.client as Sequelize).authenticate()
+        console.log("Connected to the database")
     }
 
     public getClient(): Sequelize {
         return this.client as Sequelize
-    }
-
-
-    public async testConnection(): Promise<void> {
-        await (this.client as Sequelize).authenticate()
-    }
-    
+    }    
 }
