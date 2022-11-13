@@ -3,10 +3,10 @@ import fs from 'fs'
 import { SystemConfig } from "./SystemConfig"
 import { TYPES } from "../dependency/types"
 import { FileRepo } from "../../utils/files/FileRepo"
+import Semaphore from "semaphore-async-await"
 
 export interface SystemConfigProvider{
-    init(): Promise<void>,
-    getSystemConfig(): SystemConfig
+    getSystemConfig(): Promise<SystemConfig>
 }
 
 @injectable()
@@ -14,18 +14,32 @@ export class SystemConfigFromJson implements SystemConfigProvider{
 
     constructor(@inject(TYPES.FileRepo) private fileRepo: FileRepo){}
 
-    private configFilePath = "system.config.json"
-    private systemConfig: SystemConfig|null = null
+    private filepath = "system.config.json"
+    private cache: SystemConfig|null = null
+    private lock = new Semaphore(1)
     
-    public async init(): Promise<void> {
-        this.systemConfig = await this.fileRepo.readFileAsObject<SystemConfig>(this.configFilePath)
-        console.log('Sysytem configuration loaded')
+
+    public async getSystemConfig(): Promise<SystemConfig> {
+        if(this.cache != null)
+            return this.cache as SystemConfig
+        return await this.getSysytemConfigFromFile()
     }
 
-    public getSystemConfig(): SystemConfig {
-        if(this.systemConfig != null)
-            return this.systemConfig as SystemConfig
-        else throw new Error()
+    private async getSysytemConfigFromFile(): Promise<SystemConfig>{
+        await this.lock.wait()
+        if(this.cache == null){
+            try {
+                let data: SystemConfig = await this.fileRepo
+                    .readFileAsObject(this.filepath)
+                this.cache = data
+                this.lock.signal()
+                return data
+            }
+            finally { this.lock.signal() }
+        }
+        else{
+            this.lock.signal()
+            return this.cache as SystemConfig
+        }
     }
-    
 }

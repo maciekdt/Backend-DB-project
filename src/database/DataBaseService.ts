@@ -18,7 +18,7 @@ export class SequalizeService implements DataBaseService{
     private client: Sequelize|null = null
 
     public async connect(): Promise<void> {
-        let config = this.system.getSystemConfig().db
+        let config = (await this.system.getSystemConfig()).db
         this.client = new Sequelize(config.name,  config.user, config.pass, {
             dialect: "mysql",
             host: 'localhost'

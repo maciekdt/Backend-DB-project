@@ -7,7 +7,7 @@
         "test": "mocha -r ts-node/register 'test/unit/**/*.ts'",
         "start": "ts-node-dev --respawn ./src/index.ts",
         "debug": "ts-node-dev --files --transpile-only --respawn --inspect=4321 --project tsconfig.json ./src/index.ts",
-        "build-db": "ts-node-dev ./src/config/data-base/build.ts"
+        "db-build": "ts-node-dev ./src/config/data-base/build.ts"
     },
     "author": "",
     "license": "ISC",

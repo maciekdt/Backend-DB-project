@@ -25,7 +25,7 @@ describe('Tests for KeyProvider class', function() {
     async function() {
         //arange
         when(mockedSystemConfigProvider.getSystemConfig())
-            .thenReturn({ privateKeyPath: keyFilePath } as SystemConfig)
+            .thenReturn(Promise.resolve({ privateKeyPath: keyFilePath } as SystemConfig))
         when(mockedFileRepo.readFileAsString(keyFilePath))
             .thenReturn(Promise.resolve(key))
         const sut = new KeyFromTextFile(
@@ -43,7 +43,7 @@ describe('Tests for KeyProvider class', function() {
     async function() {
         //arange
         when(mockedSystemConfigProvider.getSystemConfig())
-            .thenReturn({ privateKeyPath: keyFilePath } as SystemConfig)
+            .thenReturn(Promise.resolve({ privateKeyPath: keyFilePath } as SystemConfig))
         when(mockedFileRepo.readFileAsString(keyFilePath))
             .thenReturn(Promise.resolve(key))
         const sut = new KeyFromTextFile(
@@ -66,7 +66,7 @@ describe('Tests for KeyProvider class', function() {
     async function() {
         //arange
         when(mockedSystemConfigProvider.getSystemConfig())
-            .thenReturn({ privateKeyPath: keyFilePath } as SystemConfig)
+            .thenReturn(Promise.resolve({ privateKeyPath: keyFilePath } as SystemConfig))
         when(mockedFileRepo.readFileAsString(keyFilePath))
             .thenThrow(new Error("Test error"))
             .thenReturn(Promise.resolve(key))

@@ -4,7 +4,7 @@ import { TYPES } from "../dependency/types";
 import { SystemConfigProvider } from "./SystemConfigProvider";
 
 export interface System {
-    init(): Promise<void>
+    init(): Promise<void[]>
 }
 
 
@@ -16,8 +16,15 @@ export class SystemImpl implements System {
         @inject(TYPES.SystemConfigProvider) private systemConfigProvider: SystemConfigProvider
     ){}
 
-    public async init(): Promise<void> {
-        await this.systemConfigProvider.init()
-        await this.dbService.connect()
+    public async init(): Promise<void[]> {
+        let syncTasks: (() => void)[] = [
+
+        ]
+        syncTasks.forEach((task) => {task()})
+
+        let asyncTasks: Promise<void>[] = [
+            this.dbService.connect()
+        ]
+        return await Promise.all(asyncTasks)
     }
 }

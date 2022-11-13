@@ -31,7 +31,7 @@ export class KeyFromTextFile implements KeyProvider{
         if(this.secretKeyCache == null){
             try {
                 let secretKey =  await this.fileRepo.readFileAsString(
-                    this.system.getSystemConfig().privateKeyPath)
+                    (await this.system.getSystemConfig()).privateKeyPath)
                 this.secretKeyCache = secretKey
                 this.lock.signal()
                 return secretKey
