@@ -12,8 +12,7 @@ export interface System {
 export class SystemImpl implements System {
 
     constructor(
-        @inject(TYPES.DataBaseService) private dbService: DataBaseService,
-        @inject(TYPES.SystemConfigProvider) private systemConfigProvider: SystemConfigProvider
+        @inject(TYPES.DataBaseService) private dbService: DataBaseService
     ){}
 
     public async init(): Promise<void[]> {
@@ -23,7 +22,7 @@ export class SystemImpl implements System {
         syncTasks.forEach((task) => {task()})
 
         let asyncTasks: Promise<void>[] = [
-            this.dbService.connect()
+            this.dbService.init()
         ]
         return await Promise.all(asyncTasks)
     }

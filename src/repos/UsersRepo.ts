@@ -11,8 +11,8 @@ export class UsersRepoImplementaion implements UsersRepo{
     getUserByLogin(userLogin: string): Promise<User> {
         throw new Error("Method not implemented.");
     }
-    addUser(newUser: User): Promise<void> {
-        throw new Error("Method not implemented.");
+    public async addUser(newUser: User): Promise<void> {
+        await User.create(newUser)
     }
     
 }

@@ -31,13 +31,19 @@ export class AuthControllerImplementation implements AuthController {
 			if(await this.cryp.comparePassword(password, user.password)){
 				res.status(200)
 				res.send({
-					userId: user.id,
-					token: await this.cryp.generateTokenForUser(user.id)
+					//userId: user.id,
+					token: await this.cryp.generateTokenForUser("abc")
 				})
 			}
 			else{
 				
 			}
+		//}
+	}
+
+	public async register(req: Request, res: Response): Promise<void> {
+		//try{
+			let user = req.body as User
 		//}
 	}
 
