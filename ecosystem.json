@@ -1,0 +1,14 @@
+{
+    "apps": [{
+        "name": "Backend-DB-project",
+        "script": "npm",
+        "args": "run start",
+        "watch": false,
+        "cwd": "/home/linux/Backend-DB-project/",
+        "out_file": "/home/linux/hooker.out.log",
+        "err_file": "/home/linux/hooker.err.log",
+        "merge_logs": true,
+        "instances": 1,
+        "exec_mode": "cluster"
+    }]
+}

@@ -7,11 +7,12 @@ import { ParamsDictionary } from "express-serve-static-core"
 import { ParsedQs } from "qs"
 import { UsersRepo } from "../repos/UsersRepo"
 import { User } from "../models/User"
+import { ValidationError } from "sequelize"
 
 export interface AuthController {
 
-	getHash(pass: string): Promise<boolean>,
 	login(req: Request, res: Response): Promise<void>
+	register(req: Request, res: Response): Promise<void>
 }
 
 
@@ -23,32 +24,47 @@ export class AuthControllerImplementation implements AuthController {
 		@inject(TYPES.UsersRepo) private usersRepo: UsersRepo
     ){}
 
+
 	public async login(req: Request, res: Response): Promise<void> {
-		//try{
+		try{
 			let login = req.header("login") as string
 			let password = req.header("password") as string
-			let user: User = await this.usersRepo.getUserByLogin(login)
-			if(await this.cryp.comparePassword(password, user.password)){
-				res.status(200)
-				res.send({
-					//userId: user.id,
-					token: await this.cryp.generateTokenForUser("abc")
+			let user = await this.usersRepo.getUserByLogin(login)
+			if(user == null) 
+				res.status(401).send()
+			else if(await this.cryp.comparePassword(password, user.password)){
+				res.status(200).send({
+						userId: user.id,
+						token: await this.cryp.generateTokenForUser(user.id.toString())
 				})
 			}
-			else{
-				
-			}
-		//}
+			else 
+				res.status(401).send()
+		}
+		catch(err){
+			res.status(500).send()
+		}
 	}
+
 
 	public async register(req: Request, res: Response): Promise<void> {
-		//try{
-			let user = req.body as User
-		//}
+		try{
+			let user = User.build(req.body)
+			user.password = await this.cryp.encodePassword(user.password)
+			await this.usersRepo.addUser(user)
+			res.status(201).send()
+		}
+		catch(err){
+			if(err instanceof ValidationError){
+				res.status(409).send({
+					type: err.name,
+					errors: err.errors
+				})
+			}
+			 else{
+				res.status(500).send()
+			}
+			
+		}
 	}
-
-  	public async getHash(pass: string): Promise<boolean> {
-		let token = await this.cryp.generateTokenForUser("ABC")
-    	return await this.cryp.verifyTokenForUser("ABC", token)
-  	}
 }  

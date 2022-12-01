@@ -45,8 +45,13 @@ export class SequalizeService implements DataBaseService{
     private initTables(): void {
         User.init(
             {
+                id:{
+                    type: DataTypes.STRING,
+                    primaryKey: true
+                },
                 login: { 
                     type: DataTypes.STRING,
+                    unique: true
                 },
                 password: {
                     type: DataTypes.STRING

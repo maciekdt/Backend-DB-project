@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { mock, instance, when } from 'ts-mockito'
-import { AuthControllerImplementation} from "../../../src/controllers/Auth"
+import { AuthControllerImplementation} from "../../../src/controllers/AuthController"
 import { CrypTool, CrypToolImplementation  } from '../../../src/utils/auth/CrypTool'
 
 
