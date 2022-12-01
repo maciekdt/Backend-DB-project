@@ -12,5 +12,4 @@ echo "Build your app"
 sudo npm run start
 
 echo "Run new PM2 action"
-sudo cp ecosystem.json ecosystem-dest.json
 sudo pm2 start ecosystem.json
