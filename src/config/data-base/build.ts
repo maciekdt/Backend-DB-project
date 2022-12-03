@@ -1,9 +1,9 @@
+import { DataBaseService } from '../../database/DataBaseService'
 import { appContainer } from '../dependency/Container'
 import { TYPES } from '../dependency/types'
 import { System } from '../system/System'
-import { DataBaseBuilder } from './DataBaseBuilder'
 
-const builder = appContainer.get<DataBaseBuilder>(TYPES.DataBaseBuilder)
+const builder = appContainer.get<DataBaseService>(TYPES.DataBaseService)
 appContainer.get<System>(TYPES.System).init().then( 
     () => { builder.build() }
 )

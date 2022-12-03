@@ -7,6 +7,8 @@ import { User } from "../models/User"
 
 export interface DataBaseService{
     init(): Promise<void>
+    build(): Promise<void>
+    closeConnection(): Promise<void>
     getClient(): Sequelize
 }
 
@@ -25,6 +27,13 @@ export class SequalizeService implements DataBaseService{
         this.initTables()
     }
 
+    public async build(): Promise<void> {
+        await this.getClient().sync({ force: true })
+    }
+
+    public async closeConnection(): Promise<void> {
+        this.getClient().close()
+    }
 
     public getClient(): Sequelize {
         return this.client as Sequelize
@@ -38,7 +47,6 @@ export class SequalizeService implements DataBaseService{
             host: 'localhost'
         })
         await this.client.authenticate()
-        console.log("Connected to the database")
     }
 
     

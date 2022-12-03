@@ -56,10 +56,7 @@ export class AuthControllerImplementation implements AuthController {
 		}
 		catch(err){
 			if(err instanceof ValidationError){
-				res.status(409).send({
-					type: err.name,
-					errors: err.errors
-				})
+				res.status(409).send()
 			}
 			 else{
 				res.status(500).send()

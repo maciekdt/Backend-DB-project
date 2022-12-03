@@ -7,7 +7,6 @@ import { UsersRepo, UsersRepoImplementaion } from "../../repos/UsersRepo"
 import { SystemConfigFromJson, SystemConfigProvider } from "../system/SystemConfigProvider"
 import { FileRepo, FileRepoFs } from "../../utils/files/FileRepo"
 import { DataBaseService, SequalizeService } from "../../database/DataBaseService"
-import { DataBaseBuilder, SequalizeBuilder } from "../data-base/DataBaseBuilder"
 import { System, SystemImpl } from "../system/System"
 import { TYPES } from "./types"
 import { AuthRouter, AuthRouterImpl } from "../../routes/AuthRouter"
@@ -18,7 +17,6 @@ appContainer.bind<CrypTool>(TYPES.CrypTool).to(CrypToolImplementation )
 appContainer.bind<AuthController>(TYPES.AuthController).to(AuthControllerImplementation)
 appContainer.bind<UsersRepo>(TYPES.UsersRepo).to(UsersRepoImplementaion)
 appContainer.bind<FileRepo>(TYPES.FileRepo).to(FileRepoFs)
-appContainer.bind<DataBaseBuilder>(TYPES.DataBaseBuilder).to(SequalizeBuilder)
 appContainer.bind<System>(TYPES.System).to(SystemImpl)
 appContainer.bind<AuthRouter>(TYPES.AuthRouter).to(AuthRouterImpl)
 
