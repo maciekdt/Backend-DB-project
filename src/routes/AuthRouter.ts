@@ -25,7 +25,6 @@ export class AuthRouterImpl implements AuthRouter{
 		router.post('/register', async(req, res, next) => {
 			await this.ctrl.register(req, res)
 		})
-
 		return router
 	}
 }

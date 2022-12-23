@@ -7,7 +7,8 @@ const TYPES = {
     FileRepo: Symbol.for("FileRepo"),
     DataBaseService: Symbol.for("DataBaseService"),
     System: Symbol.for("System"),
-    AuthRouter: Symbol.for("AuthRouter")
+    AuthRouter: Symbol.for("AuthRouter"),
+    App: Symbol.for("App")
 }
 
 export { TYPES }

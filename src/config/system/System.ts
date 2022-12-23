@@ -22,7 +22,7 @@ export class SystemImpl implements System {
         syncTasks.forEach((task) => {task()})
 
         let asyncTasks: Promise<void>[] = [
-            this.dbService.init()
+            this.dbService.connect()
         ]
         return await Promise.all(asyncTasks)
     }

@@ -10,6 +10,7 @@ import { DataBaseService, SequalizeService } from "../../database/DataBaseServic
 import { System, SystemImpl } from "../system/System"
 import { TYPES } from "./types"
 import { AuthRouter, AuthRouterImpl } from "../../routes/AuthRouter"
+import { App, AppImpl } from "../../app/App"
 
 
 const appContainer = new Container()
@@ -19,6 +20,7 @@ appContainer.bind<UsersRepo>(TYPES.UsersRepo).to(UsersRepoImplementaion)
 appContainer.bind<FileRepo>(TYPES.FileRepo).to(FileRepoFs)
 appContainer.bind<System>(TYPES.System).to(SystemImpl)
 appContainer.bind<AuthRouter>(TYPES.AuthRouter).to(AuthRouterImpl)
+appContainer.bind<App>(TYPES.App).to(AppImpl)
 
 appContainer.bind<DataBaseService>(TYPES.DataBaseService).to(SequalizeService).inSingletonScope()
 appContainer.bind<KeyProvider>(TYPES.KeyProvider).to(KeyFromTextFile).inSingletonScope()

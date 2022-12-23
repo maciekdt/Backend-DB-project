@@ -6,7 +6,7 @@ import { User } from "../models/User"
 
 
 export interface DataBaseService{
-    init(): Promise<void>
+    connect(): Promise<void>
     build(): Promise<void>
     closeConnection(): Promise<void>
     getClient(): Sequelize
@@ -22,8 +22,13 @@ export class SequalizeService implements DataBaseService{
     private client: Sequelize|null = null
 
 
-    public async init(): Promise<void> {
-        await this.connect()
+    public async connect(): Promise<void> {
+        let config = (await this.system.getSystemConfig()).db
+        this.client = new Sequelize(config.name, config.user, config.pass, {
+            dialect: "mysql",
+            host: 'localhost'
+        })
+        await this.client.authenticate()
         this.initTables()
     }
 
@@ -37,16 +42,6 @@ export class SequalizeService implements DataBaseService{
 
     public getClient(): Sequelize {
         return this.client as Sequelize
-    }
-
-
-    private async connect(): Promise<void> {
-        let config = (await this.system.getSystemConfig()).db
-        this.client = new Sequelize(config.name,  config.user, config.pass, {
-            dialect: "mysql",
-            host: 'localhost'
-        })
-        await this.client.authenticate()
     }
 
     
