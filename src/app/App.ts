@@ -6,7 +6,7 @@ import { System } from "../config/system/System"
 import { AuthRouter } from "../routes/AuthRouter"
 
 export interface App{
-	start(): Application
+	start(): Promise<Application>
 	getBaseUrl(): string
 }
 
@@ -19,13 +19,14 @@ export class AppImpl implements App {
 		@inject(TYPES.AuthRouter) private authRouter: AuthRouter,
     ){}
 
-	public start(): Application {
+	public async start(): Promise<Application> {
+		await appContainer.get<System>(TYPES.System).init()
 		this.app.use(express.json())
 		this.app.use("/auth", this.authRouter.getRouter())
 		this.app.get("/test-connection", (req, res) => { res.status(200).send() })
 
 		this.app.listen(this.PORT, async(): Promise<void> => {
-			await appContainer.get<System>(TYPES.System).init()
+			
 			console.log(`Server Running here 👉 ${this.getBaseUrl()}`)
 		})
 

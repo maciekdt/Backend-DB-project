@@ -27,6 +27,7 @@ export class AuthControllerImplementation implements AuthController {
 
 	public async login(req: Request, res: Response): Promise<void> {
 		try{
+			console.log(req.headers)
 			let login = req.header("login") as string
 			let password = req.header("password") as string
 			let user = await this.usersRepo.getUserByLogin(login)
@@ -34,8 +35,8 @@ export class AuthControllerImplementation implements AuthController {
 				res.status(401).send()
 			else if(await this.cryp.comparePassword(password, user.password)){
 				res.status(200).send({
-						userId: user.id,
-						token: await this.cryp.generateTokenForUser(user.id.toString())
+					userId: user.id,
+					token: await this.cryp.generateTokenForUser(user.id.toString())
 				})
 			}
 			else 
@@ -61,7 +62,6 @@ export class AuthControllerImplementation implements AuthController {
 			 else{
 				res.status(500).send()
 			}
-			
 		}
 	}
 }  
