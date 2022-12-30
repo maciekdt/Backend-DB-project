@@ -3,6 +3,7 @@ import { DataTypes, Sequelize } from "sequelize"
 import { TYPES } from "../config/dependency/types"
 import { SystemConfigProvider } from "../config/system/SystemConfigProvider"
 import { User } from "../models/User"
+import SQLite from 'sqlite3'
 
 
 export interface DataBaseService{
@@ -23,11 +24,17 @@ export class SequalizeService implements DataBaseService{
 
 
     public async connect(): Promise<void> {
-        let config = (await this.system.getSystemConfig()).db
-        this.client = new Sequelize(config.name, config.user, config.pass, {
-            dialect: "mysql",
-            host: 'localhost'
-        })
+        let config = (await this.system.getSystemConfig()).dbConfig
+        this.client = new Sequelize(
+            config.name, 
+            config.user, 
+            (config.pass == null) ? undefined : config.pass, 
+            {
+                dialect: config.options.dialect,
+                storage: (config.options.storage == null) ? undefined : config.options.storage,
+                host: (config.options.host == null) ? undefined : config.options.host,
+            }
+        )
         await this.client.authenticate()
         this.initTables()
     }

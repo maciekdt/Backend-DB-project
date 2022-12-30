@@ -1,13 +1,13 @@
 {
     "privateKeyPath": "res/secret/private.key",
     "dbConfig": {
-        "pass": "Banan123",
+        "pass": null,
         "user": "root",
         "name": "main",
         "options": {
-            "dialect": "mysql",
-            "host": "localhost",
-            "storage": null
+            "dialect": "sqlite",
+            "host": null,
+            "storage": ":memory:"
         }
     }
 }

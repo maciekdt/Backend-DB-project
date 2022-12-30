@@ -13,7 +13,7 @@ export class TestServer{
     private api: AxiosInstance|null = null
 
     private async spawnServer(): Promise<ChildProcessWithoutNullStreams> {
-        const server = spawn('node', ["./dist/index.js"])
+        const server = spawn('node', ["./dist/index.js", "system.config.test.json"])
         server.stdout.pipe(process.stdout)
         server.stderr.pipe(process.stderr)
         await this.waitForURLReachable(`${this.app.getBaseUrl()}/test-connection`)

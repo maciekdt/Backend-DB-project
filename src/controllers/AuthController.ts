@@ -8,6 +8,8 @@ import { ParsedQs } from "qs"
 import { UsersRepo } from "../repos/UsersRepo"
 import { User } from "../models/User"
 import { ValidationError } from "sequelize"
+import { appContainer } from "../config/dependency/Container"
+import { DataBaseService } from "../database/DataBaseService"
 
 export interface AuthController {
 
@@ -27,7 +29,6 @@ export class AuthControllerImplementation implements AuthController {
 
 	public async login(req: Request, res: Response): Promise<void> {
 		try{
-			console.log(req.headers)
 			let login = req.header("login") as string
 			let password = req.header("password") as string
 			let user = await this.usersRepo.getUserByLogin(login)

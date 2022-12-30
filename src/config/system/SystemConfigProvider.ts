@@ -14,7 +14,7 @@ export class SystemConfigFromJson implements SystemConfigProvider{
 
     constructor(@inject(TYPES.FileRepo) private fileRepo: FileRepo){}
 
-    private filepath = "system.config.json"
+    private filepath = process.argv[2]
     private cache: SystemConfig|null = null
     private lock = new Semaphore(1)
     
