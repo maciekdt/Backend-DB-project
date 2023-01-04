@@ -1,3 +1,5 @@
 node_modules
 res/secret
 dist
+system.config.json
+system.config.test.json

@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "unit-test": "mocha -r ts-node/register 'test/unit/**/*.ts'",
-        "inter-test": "mocha -r ts-node/register 'test/integration/tests/**/*.ts'",
+        "inter-test": "mocha system.config.test.json -r ts-node/register 'test/integration/tests/**/*.ts'",
         "start": "ts-node-dev --respawn ./src/index.ts system.config.json",
         "debug": "ts-node-dev --files --transpile-only --respawn --inspect=4321 --project tsconfig.json ./src/index.ts system.config.json",
         "build": "tsc --project tsconfig.json",

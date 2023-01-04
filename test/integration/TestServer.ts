@@ -12,13 +12,6 @@ export class TestServer{
     private testServerProcess: ChildProcessWithoutNullStreams|null = null
     private api: AxiosInstance|null = null
 
-    private async spawnServer(): Promise<ChildProcessWithoutNullStreams> {
-        const server = spawn('node', ["./dist/index.js", "system.config.test.json"])
-        server.stdout.pipe(process.stdout)
-        server.stderr.pipe(process.stderr)
-        await this.waitForURLReachable(`${this.app.getBaseUrl()}/test-connection`)
-        return server
-    }
 
     private async waitForURLReachable(url: string, timeout: number = 5000): Promise<boolean> {
         const timeoutThreshold = Date.now() + timeout
@@ -37,16 +30,13 @@ export class TestServer{
     }
 
     public async startServer(): Promise<void>{
-        this.testServerProcess = await this.spawnServer()
+        await this.app.start()
+        await this.waitForURLReachable(`${this.app.getBaseUrl()}/test-connection`)
         this.api = axios.create({ baseURL: this.app.getBaseUrl() })
     }
 
-    public stopServer(): Promise<void>{
-        if(!this.testServerProcess!!.kill())
-            throw new Error(`Not able to kill test server`)
-        return new Promise<void>(resolve =>
-            this.testServerProcess!!.on('close', () => resolve())
-        )
+    public stopServer(): void{
+        this.app.stop()
     }
 
     public getApi(): AxiosInstance{

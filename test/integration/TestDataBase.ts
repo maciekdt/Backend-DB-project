@@ -11,13 +11,4 @@ export class TestDataBase {
         await this.database.connect()
         await this.database.build()
     }
-
-    public async fillWithTestData(){
-        await User.build({
-            id: "id",
-            firstName: "firstName", 
-            lastName: "lastName", 
-            password: "pass", 
-            login:"user"}).save()
-    }
 }
