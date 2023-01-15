@@ -82,10 +82,10 @@ export class ConversationControllerImpl implements ConversationController {
 
     public async addUserForConversation(req: Request, res: Response): Promise<void> {
         try{
-            let userId = req.params.userId as string
+            let login = req.params.login as string
             let convId = req.params.conversationId as string
             let participation = Participation.build(req.body)
-            await this.convRepo.addUserToConversation(userId, participation, convId)
+            await this.convRepo.addUserToConversation(login, participation, convId)
             res.status(201).send()
         }
         catch(err){

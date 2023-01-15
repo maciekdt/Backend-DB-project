@@ -33,7 +33,7 @@ export class ConversationRouterImpl implements ConversationRouter{
 			await this.ctrl.getMessagesForConversation(req, res)
 		})
 
-		router.post('/:conversationId/:userId', async(req, res, next) => {
+		router.post('/:conversationId/:login', async(req, res, next) => {
 			await this.ctrl.addUserForConversation(req, res)
 		})
 

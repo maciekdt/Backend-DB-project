@@ -12,7 +12,7 @@ export interface ConversationRepo{
     getConversationsForUser(userId: string): Promise<Conversation[]>
     addMessageForUserAndConversation(userId: string, conversationId: string, msg: Message): Promise<void>
     getMessagesForConversation(conversationId: string): Promise<Message[]>
-    addUserToConversation(userId: string, participation: Participation, convId: string): Promise<void>
+    addUserToConversation(login: string, participation: Participation, convId: string): Promise<void>
 }
 
 
@@ -105,11 +105,11 @@ export class ConversationRepoImpl implements ConversationRepo{
 
 
     public async addUserToConversation(
-        userId: string, 
+        login: string, 
         participation: Participation, 
         convId: string): Promise<void>{
 
-        var user = await User.findByPk(userId)
+        var user = await User.findOne({where: {login: login}})
         var conv = await Conversation.findByPk(convId)
         const t = await this.db.getClient().transaction()
 
