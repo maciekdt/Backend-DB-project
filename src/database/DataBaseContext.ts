@@ -4,9 +4,13 @@ import { TYPES } from "../config/dependency/types"
 import { SystemConfigProvider } from "../config/system/SystemConfigProvider"
 import { User } from "../models/User"
 import SQLite from 'sqlite3'
+import { Conversation } from "../models/Conversation"
+import { Message } from "../models/Message"
+import { timeStamp } from "console"
+import { Participation } from "../models/Participation"
 
 
-export interface DataBaseService{
+export interface DataBaseContext{
     connect(): Promise<void>
     build(): Promise<void>
     closeConnection(): Promise<void>
@@ -15,7 +19,7 @@ export interface DataBaseService{
 
 
 @injectable()
-export class SequalizeService implements DataBaseService{
+export class SequalizeContext implements DataBaseContext{
     constructor(
         @inject(TYPES.SystemConfigProvider) private system: SystemConfigProvider
     ){}
@@ -32,7 +36,8 @@ export class SequalizeService implements DataBaseService{
             {
                 dialect: config.options.dialect,
                 storage: (config.options.storage == null) ? undefined : config.options.storage,
-                host: (config.options.host == null) ? undefined : config.options.host,
+                host: (config.options.host == null) ? undefined : config.options.host
+                //logging: config.options.logging
             }
         )
         await this.client.authenticate()
@@ -78,5 +83,69 @@ export class SequalizeService implements DataBaseService{
                 sequelize: this.client as Sequelize,
                 timestamps: false
         })
+
+        Conversation.init(
+            {
+                id:{
+                    type: DataTypes.STRING,
+                    primaryKey: true
+                },
+                creationTime:{
+                    type: DataTypes.INTEGER
+                },
+                name:{
+                    type: DataTypes.STRING
+                }
+            },
+            {
+                tableName: 'Conversations',
+                sequelize: this.client as Sequelize,
+                timestamps: false
+            }
+        )
+
+        Message.init(
+            {
+                id:{
+                    type: DataTypes.STRING,
+                    primaryKey: true
+                },
+                content:{
+                    type: DataTypes.STRING
+                },
+                sendingTime:{
+                    type: DataTypes.INTEGER
+                }
+            },
+            {
+                tableName: 'Messages',
+                sequelize: this.client as Sequelize,
+                timestamps: false
+            }
+        )
+
+        Participation.init(
+            {
+                id:{
+                    type: DataTypes.STRING,
+                    primaryKey: true
+                }
+            },
+            {
+                tableName: 'Participations',
+                sequelize: this.client as Sequelize,
+                timestamps: false
+            }
+        )
+
+
+        User.hasMany(Participation)
+        Participation.belongsTo(User)
+
+        Conversation.hasMany(Participation)
+        Participation.belongsTo(Conversation)
+
+        Participation.hasMany(Message)
+        Message.belongsTo(Participation)
     }
 }

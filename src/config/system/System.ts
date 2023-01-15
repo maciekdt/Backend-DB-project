@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { DataBaseService } from "../../database/DataBaseService";
+import { DataBaseContext } from "../../database/DataBaseContext";
 import { TYPES } from "../dependency/types";
 import { SystemConfigProvider } from "./SystemConfigProvider";
 
@@ -12,7 +12,7 @@ export interface System {
 export class SystemImpl implements System {
 
     constructor(
-        @inject(TYPES.DataBaseService) private dbService: DataBaseService
+        @inject(TYPES.DataBaseContext) private dbService: DataBaseContext
     ){}
 
     public async init(): Promise<void[]> {

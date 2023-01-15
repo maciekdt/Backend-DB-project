@@ -18,7 +18,7 @@ export class TestServer{
         while (true) {
             try {
                 await axios.get(url)
-                console.log("Client connected with test server")
+                //console.log("Client connected with test server")
                 return true
             } catch (err) {
                 if (Date.now() > timeoutThreshold) {

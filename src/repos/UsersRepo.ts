@@ -1,4 +1,5 @@
 import { injectable } from "inversify";
+import { Participation } from "../models/Participation";
 import { User } from "../models/User";
 
 export interface UsersRepo{
@@ -8,9 +9,11 @@ export interface UsersRepo{
 
 @injectable()
 export class UsersRepoImplementaion implements UsersRepo{
+
     public async getUserByLogin(userLogin: string): Promise<User|null> {
         return await User.findOne({where: {login: userLogin}})
     }
+
     public async addUser(newUser: User): Promise<void> {
         await newUser.save()
     }

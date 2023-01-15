@@ -10,6 +10,7 @@ export interface SystemConfig {
             host: string|null
             dialect: Dialect
             storage: string|null
+            logging: boolean
         }
     }
 }

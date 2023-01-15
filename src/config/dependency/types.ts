@@ -5,10 +5,13 @@ const TYPES = {
     UsersRepo: Symbol.for("UsersRepo"),
     SystemConfigProvider: Symbol.for("SystemConfigProvider"),
     FileRepo: Symbol.for("FileRepo"),
-    DataBaseService: Symbol.for("DataBaseService"),
+    DataBaseContext: Symbol.for("DataBaseContext"),
     System: Symbol.for("System"),
     AuthRouter: Symbol.for("AuthRouter"),
-    App: Symbol.for("App")
+    App: Symbol.for("App"),
+    ConversationRepo: Symbol.for("ConversationRepo"),
+    ConversationController: Symbol.for("ConversationController"),
+    ConversationRouter: Symbol.for("ConversationRouter")
 }
 
 export { TYPES }

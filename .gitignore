@@ -3,3 +3,4 @@ res/secret
 dist
 system.config.json
 system.config.test.json
+config

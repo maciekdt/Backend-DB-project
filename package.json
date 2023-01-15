@@ -5,13 +5,13 @@
     "main": "index.js",
     "scripts": {
         "unit-test": "mocha -r ts-node/register 'test/unit/**/*.ts'",
-        "inter-test": "mocha system.config.test.json -r ts-node/register 'test/integration/tests/**/*.ts'",
-        "start": "ts-node-dev --respawn ./src/index.ts system.config.json",
-        "debug": "ts-node-dev --files --transpile-only --respawn --inspect=4321 --project tsconfig.json ./src/index.ts system.config.json",
+        "inter-test": "mocha config/system.config.test.json -r ts-node/register 'test/integration/tests/**/*.ts'",
+        "start": "ts-node-dev --respawn ./src/index.ts config/system.config.json",
+        "debug": "ts-node-dev --files --transpile-only --respawn --inspect=4321 --project tsconfig.json ./src/index.ts config/system.config.json",
         "build": "tsc --project tsconfig.json",
-        "db-build": "ts-node-dev ./src/config/data-base/build.ts system.config.json",
-        "start-prod": "node ./dist/index.js system.config.json",
-        "db-build-prod": "node ./dist/config/data-base/build.js"
+        "db-build": "ts-node-dev ./src/config/data-base/build.ts config/system.config.json",
+        "start-prod": "node ./dist/index.js config/system.config.json",
+        "db-build-prod": "node ./dist/config/data-base/build.js config/system.config.json"
     },
     "author": "",
     "license": "ISC",

@@ -1,10 +1,10 @@
 import { appContainer } from "../../src/config/dependency/Container";
 import { TYPES } from "../../src/config/dependency/types";
-import { DataBaseService } from "../../src/database/DataBaseService";
+import { DataBaseContext } from "../../src/database/DataBaseContext";
 import { User } from "../../src/models/User";
 
 export class TestDataBase {
-    private database = appContainer.get<DataBaseService>(TYPES.DataBaseService)
+    private database = appContainer.get<DataBaseContext>(TYPES.DataBaseContext)
 
     public async start(): Promise<void>{
         

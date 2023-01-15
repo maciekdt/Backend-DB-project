@@ -9,7 +9,7 @@ import { UsersRepo } from "../repos/UsersRepo"
 import { User } from "../models/User"
 import { ValidationError } from "sequelize"
 import { appContainer } from "../config/dependency/Container"
-import { DataBaseService } from "../database/DataBaseService"
+import { DataBaseContext } from "../database/DataBaseContext"
 
 export interface AuthController {
 
@@ -19,7 +19,7 @@ export interface AuthController {
 
 
 @injectable()
-export class AuthControllerImplementation implements AuthController {
+export class AuthControllerImpl implements AuthController {
 
   	constructor(
 		@inject(TYPES.CrypTool) private cryp: CrypTool,
