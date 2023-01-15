@@ -17,12 +17,24 @@ export class ConversationRouterImpl implements ConversationRouter{
 	public getRouter(){
 		const router: Router = express.Router()
 
-		router.post('/conversation', async(req, res, next) => {
+		router.post('/', async(req, res, next) => {
 			await this.ctrl.addConversationForUser(req, res)
 		})
 
-        router.get('/conversation', async(req, res, next) => {
+        router.get('/', async(req, res, next) => {
 			await this.ctrl.getConverationsForUser(req, res)
+		})
+
+		router.post('/message/:conversationId', async(req, res, next) => {
+			await this.ctrl.addMessageForUserAndConversation(req, res)
+		})
+
+		router.get('/message/:conversationId', async(req, res, next) => {
+			await this.ctrl.getMessagesForConversation(req, res)
+		})
+
+		router.post('/:conversationId/:userId', async(req, res, next) => {
+			await this.ctrl.addUserForConversation(req, res)
 		})
 
 		return router
